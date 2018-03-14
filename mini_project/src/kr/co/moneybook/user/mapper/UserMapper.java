@@ -1,5 +1,7 @@
 package kr.co.moneybook.user.mapper;
 
 public interface UserMapper {
-aaa
+public static void main(String[] args) {
+	System.out.println("하이");
+}
 }
