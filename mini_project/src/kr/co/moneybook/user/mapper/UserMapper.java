@@ -1,8 +1,5 @@
-package kr.co.moneybook.user.mapper;
-
-import kr.co.moneybook.user.domain.User;
+﻿package kr.co.moneybook.user.mapper;
 
 public interface UserMapper {
-	
-	
+
 }
