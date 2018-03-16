@@ -1,7 +1,20 @@
 package kr.co.moneybook.user.ui;
 
-public class LoginUI {
-	public static void main(String[] args) {
-		System.out.println("ddd");
+import kr.co.moneybook.main.ui.BaseUI;
+import kr.co.moneybook.user.mapper.UserMapper;
+
+public class LoginUI extends BaseUI{
+	private UserMapper mapper;
+	
+	public LoginUI(UserMapper mapper) {
+		this.mapper = mapper;
 	}
+
+	@Override
+	public void service() {
+		
+		
+		
+	}
+
 }

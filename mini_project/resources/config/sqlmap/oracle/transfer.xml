@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "kr.co.moneybook.transfer.mapper.TransferMapper">
+
+	<resultMap id="transferMap" type="transfer">
+		<result column="transfer_seq" property="no"/>
+		<result column="transfer_user_id" property="transferUserId"/>
+		<result column="transfer_price" property="transferPrice"/>
+		<result column="accept_user_id" property="acceptUserId"/>
+		<result column="transfer_date" property="transferDate"/>
+	</resultMap>
+	
+	<resultMap id="UserMap" type="user">
+		<result column ="USER_ID" property="userId" />
+		<result column ="USER_PW" property="userPw" />
+		<result column ="USER_EMAIL" property="userEmail" />
+		<result column ="USER_PW_HINT" property="userPwHint" />
+		<result column ="USER_AMOUNT_HINT" property="UserAmountHint" />
+	</resultMap>
+	
+	<insert id="insertWithdrawal" parameterType="transfer">
+		insert into tb_transfer(
+			transfer_seq,
+			transfer_user_id,
+			transfer_price,
+			accept_user_id
+		)values(
+			s_transfer_seq.nextval,
+			#{transferUserId},
+			#{transferPrice},
+			#{acceptUserId}
+		)
+	</insert>
+	
+	<update id="updateWithdrawal" parameterType="transfer">
+		update tb_user
+		   set user_amount_price = user_amount_price - #{transferPrice}
+		 where user_id = #{transferUserId}
+	</update>
+	
+	
+	<update id="updateDeposit" parameterType="transfer">
+		update tb_user
+		   set user_amount_price = user_amount_price + #{transferPrice}
+		 where user_id = #{acceptUserId}
+	</update>
+	
+	
+	<select id="selectUserAmountPrice" parameterType="string" resultType = "int">
+		select user_amount_price
+		  from tb_user
+		 where user_id = #{id}
+	</select>
+	
+	
+	<select id="selectFindUserId" parameterType="string" resultType="string">
+		select user_id
+		  from tb_user
+		 where user_id = #{id}
+	</select>
+	
+	<select id="selectInquiry" parameterType ="string" resultType = "transfer">
+		select transfer_user_id as transferUserId,
+			   transfer_price as transferPrice,
+			   accept_user_id as acceptUserId,
+			   user_amount_price as userAmountPrice,
+			   transfer_date as transferDate
+		  from tb_user u
+		 inner join tb_transfer t
+		    on u.USER_ID = t.TRANSFER_USER_ID
+		 where accept_user_id = #{id};
+	</select>
+
+</mapper>
